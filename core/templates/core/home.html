@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Início | Gestão de Condomínio{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <!-- Exibindo o painel de controle para usuários logados -->
+        <h1 class="mb-4">Painel de Controle</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{% url 'moradores' %}" class="text-decoration-none">
+                    <div class="card text-bg-primary mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">👥 Moradores</h5>
+                            <p class="card-text text-white">Gerencie todos os moradores do condomínio.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'financeiro' %}" class="text-decoration-none">
+                    <div class="card text-bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">💰 Financeiro</h5>
+                            <p class="card-text text-white">Controle boletos, pagamentos e taxas.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'reservas' %}" class="text-decoration-none">
+                    <div class="card text-bg-warning mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">📅 Reservas</h5>
+                            <p class="card-text text-dark">Área de reservas de salão, churrasqueira, etc.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <!-- Exibindo o formulário de login para usuários não logados -->
+        <div class="container mt-5">
+            <h2>Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+            <p>Não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a></p>
+        </div>
+    {% endif %}
+{% endblock %}

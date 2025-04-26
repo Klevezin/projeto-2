@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Avisos | Gestão de Condomínio{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📢 Avisos do Condomínio</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-warning mb-3">
+            <div class="card-header bg-warning text-dark">Manutenção Elétrica</div>
+            <div class="card-body">
+                <p class="card-text">Haverá uma manutenção no sistema elétrico na próxima quarta-feira (26/04), das 08h às 12h. Favor se programar.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-info mb-3">
+            <div class="card-header bg-info text-white">Reunião de Condôminos</div>
+            <div class="card-body">
+                <p class="card-text">A próxima reunião será no sábado, 27/04, às 16h no salão de festas. Participação de todos é essencial!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-danger mb-3">
+            <div class="card-header bg-danger text-white">Aviso Importante</div>
+            <div class="card-body">
+                <p class="card-text">É proibido jogar lixo fora dos horários definidos. Sujeito a multa conforme regulamento interno.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

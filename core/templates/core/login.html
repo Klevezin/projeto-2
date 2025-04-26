@@ -1,0 +1,14 @@
+
+{% block title %}Login | Gestão de Condomínio{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+        <p>Não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a></p>
+    </div>
+{% endblock %}

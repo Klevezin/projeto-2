@@ -1,0 +1,63 @@
+/* Estilos personalizados para o Sistema de Gestão de Condomínio */
+
+/* Corpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar */
+.sidebar {
+    height: 100vh;
+    background-color: #f1f1f1;
+    border-right: 1px solid #ddd;
+}
+
+/* Títulos da Sidebar */
+.sidebar h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Links da Sidebar */
+.sidebar .nav-link {
+    font-size: 1rem;
+    padding: 10px 15px;
+}
+
+/* Efeito de hover nos links da Sidebar */
+.sidebar .nav-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Estilo do conteúdo principal */
+main {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    padding: 20px;
+}
+
+/* Estilo do Footer */
+footer {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Botões */
+button {
+    font-size: 1rem;
+}
+
+/* Títulos do conteúdo */
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Alinhamento do conteúdo */
+.text-center {
+    text-align: center;
+}
