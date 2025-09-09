@@ -1,63 +1,157 @@
-/* Estilos personalizados para o Sistema de Gestão de Condomínio */
+/* --- ESTILO MODERNO ADAPTADO PARA BOOTSTRAP --- */
 
-/* Corpo */
+/* --- Configurações Globais e Variáveis de Cor --- */
+:root {
+    --cor-fundo: #f4f7fa;
+    --cor-sidebar: #ffffff;
+    --cor-texto-principal: #2c3e50;
+    --cor-texto-secundario: #7f8c8d;
+    --cor-primaria: #3498db;
+    --cor-borda: #ecf0f1;
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --sombra-card-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
 }
 
-/* Sidebar */
+/* --- Adaptando a Sidebar do Bootstrap --- */
 .sidebar {
-    height: 100vh;
-    background-color: #f1f1f1;
-    border-right: 1px solid #ddd;
+    background-color: var(--cor-sidebar) !important; /* !important para sobrescrever o bg-light do Bootstrap */
+    border-right: 1px solid var(--cor-borda);
 }
+/* REMOVIDO: width, height e position, pois o Bootstrap já controla isso com as classes col-* */
 
-/* Títulos da Sidebar */
-.sidebar h4 {
+.sidebar .sidebar-header h4 {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
 }
 
-/* Links da Sidebar */
+/* Estilizando os links da sidebar */
 .sidebar .nav-link {
-    font-size: 1rem;
-    padding: 10px 15px;
-}
-
-/* Efeito de hover nos links da Sidebar */
-.sidebar .nav-link:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Estilo do conteúdo principal */
-main {
-    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 15px;
-    padding: 20px;
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Estilo do Footer */
-footer {
-    background-color: #007bff;
+.sidebar .nav-link:hover {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--cor-primaria);
     color: white;
 }
-
-/* Botões */
-button {
-    font-size: 1rem;
+/* Garante que o ícone também fique branco no link ativo */
+.sidebar .nav-link.active i {
+    color: white !important;
 }
 
-/* Títulos do conteúdo */
-h2 {
-    font-size: 2rem;
-    font-weight: bold;
+
+/* --- Adaptando o Conteúdo Principal --- */
+.main-content {
+    background-color: var(--cor-fundo);
+}
+/* REMOVIDO: margin-left, pois o Bootstrap já controla o espaçamento com ms-sm-auto */
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
 }
 
-/* Alinhamento do conteúdo */
-.text-center {
-    text-align: center;
+/* --- Estilos dos Cards (Estes funcionam perfeitamente) --- */
+.cards-container {
+    display: grid;
+    /* Usando o grid do Bootstrap como base, mas podemos customizar */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border: none; /* Remove a borda padrão do Bootstrap */
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra-card-hover);
+}
+
+.card .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+}
+
+/* Cores dos ícones dos cards */
+.card.moradores .icon { background-color: #eaf2fb; color: #3498db; }
+.card.financeiro .icon { background-color: #e9f7ef; color: #2ecc71; }
+.card.reservas .icon { background-color: #fef5e7; color: #f39c12; }
+
+/* --- Rodapé --- */
+footer {
+    background-color: var(--cor-sidebar) !important;
+    border-top: 1px solid var(--cor-borda);
+}
+/* --- ESTILOS PARA O FUNDO DAS PÁGINAS DE LOGIN/CADASTRO --- */
+
+/* Esta classe aplica a imagem de fundo e as propriedades de cobertura */
+.auth-background {
+    background-image: url('/images/fundo.png'); 
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* Cria a camada escura semitransparente sobre a imagem de fundo */
+.auth-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 25, 47, 0.6); /* Cor escura com 60% de opacidade */
+    z-index: 0;
+}
+
+/* Estiliza o painel branco onde o formulário fica */
+.auth-panel {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative; /* Garante que o painel fique na frente da camada escura */
+    z-index: 1;
 }
