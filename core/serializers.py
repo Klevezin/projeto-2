@@ -4,7 +4,7 @@ from .models import Apartamento, Morador, Aviso
 class ApartamentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Apartamento
-        fields = ['id', 'numero', 'bloco', 'moradores'] 
+        fields = ['id', 'numero', 'bloco', 'moradores']
 
 class MoradorSerializer(serializers.ModelSerializer):
     class Meta:

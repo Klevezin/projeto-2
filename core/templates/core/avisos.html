@@ -6,34 +6,38 @@
     <h1 class="main-title">📢 Avisos do Condomínio</h1>
 
     <div class="row">
-        {% if avisos %}
-            {% for aviso in avisos %}
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <h5 class="mb-0">{{ aviso.titulo }}</h5>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <p class="card-text flex-grow-1">{{ aviso.conteudo|linebreaks }}</p>
-                            
-                            {% if aviso.imagem %}
-                                <img src="{{ aviso.imagem.url }}" class="img-fluid rounded mb-3" alt="Imagem do aviso: {{ aviso.titulo }}">
-                            {% endif %}
-                            
-                            <p class="card-text mt-auto text-end">
-                                <small class="text-muted">Publicado em: {{ aviso.data_criacao|date:"d/m/Y às H:i" }}</small>
-                            </p>
-                        </div>
+        {% for aviso in avisos %}
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ aviso.titulo }}</h5>
+                        
+                        {% if user.is_superuser %}
+                            <a href="{% url 'aviso_deletar' pk=aviso.pk %}" class="btn btn-sm btn-outline-danger" title="Deletar Aviso">
+                                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <p class="card-text flex-grow-1">{{ aviso.conteudo|linebreaks }}</p>
+                        
+                        {% if aviso.imagem %}
+                            <img src="{{ aviso.imagem.url }}" class="img-fluid rounded mb-3" alt="Imagem do aviso: {{ aviso.titulo }}">
+                        {% endif %}
+                        
+                        <p class="card-text mt-auto text-end">
+                            <small class="text-muted">Publicado em: {{ aviso.data_criacao|date:"d/m/Y às H:i" }}</small>
+                        </p>
                     </div>
                 </div>
-            {% endfor %}
-        {% else %}
+            </div>
+        {% empty %}
             <div class="col-12">
                 <div class="alert alert-info" role="alert">
                     Nenhum aviso publicado no momento.
                 </div>
             </div>
-        {% endif %}
+        {% endfor %}
     </div>
 
 {% endblock %}
