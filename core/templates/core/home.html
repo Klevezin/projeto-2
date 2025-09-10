@@ -3,54 +3,65 @@
 {% block title %}Início | Gestão de Condomínio{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <!-- Exibindo o painel de controle para usuários logados -->
-        <h1 class="mb-4">Painel de Controle</h1>
 
-        <div class="row">
-            <div class="col-md-4">
-                <a href="{% url 'moradores' %}" class="text-decoration-none">
-                    <div class="card text-bg-primary mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">👥 Moradores</h5>
-                            <p class="card-text text-white">Gerencie todos os moradores do condomínio.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+    {% if user.is_superuser %}
+        
+        <!-- =============================================== -->
+        <!-- VISÃO DO ADMINISTRADOR (PAINEL DE CONTROLE)      -->
+        <!-- =============================================== -->
+        <h1 class="main-title">Painel de Controle</h1>
 
-            <div class="col-md-4">
-                <a href="{% url 'financeiro' %}" class="text-decoration-none">
-                    <div class="card text-bg-success mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">💰 Financeiro</h5>
-                            <p class="card-text text-white">Controle boletos, pagamentos e taxas.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-4">
-                <a href="{% url 'reservas' %}" class="text-decoration-none">
-                    <div class="card text-bg-warning mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">📅 Reservas</h5>
-                            <p class="card-text text-dark">Área de reservas de salão, churrasqueira, etc.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+        <div class="cards-container mb-5">
+            <a href="{% url 'moradores' %}" class="card moradores text-decoration-none">
+                <div class="icon"><i data-lucide="users"></i></div>
+                <h3>Moradores</h3>
+                <p>Gerencie todos os moradores do condomínio.</p>
+            </a>
+            <a href="{% url 'financeiro' %}" class="card financeiro text-decoration-none">
+                <div class="icon"><i data-lucide="landmark"></i></div>
+                <h3>Financeiro</h3>
+                <p>Controle boletos, pagamentos e taxas.</p>
+            </a>
+            <a href="{% url 'reservas' %}" class="card reservas text-decoration-none">
+                <div class="icon"><i data-lucide="calendar-plus"></i></div>
+                <h3>Reservas</h3>
+                <p>Área de reservas de salão, churrasqueira, etc.</p>
+            </a>
         </div>
+
     {% else %}
-        <!-- Exibindo o formulário de login para usuários não logados -->
-        <div class="container mt-5">
-            <h2>Login</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </form>
-            <p>Não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a></p>
-        </div>
+
+        <!-- =============================================== -->
+        <!-- VISÃO DO USUÁRIO COMUM (BOAS-VINDAS)         -->
+        <!-- =============================================== -->
+        <h1 class="main-title">Bem-vindo(a), {{ user.first_name|default:user.username }}!</h1>
+        <p class="lead text-muted mb-4">Fique por dentro das novidades do condomínio.</p>
+        
     {% endif %}
+
+    <!-- Seção de Últimos Avisos (visível para AMBOS os usuários) -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="main-title h3 mb-0">Últimos Avisos</h2>
+        <a href="{% url 'avisos' %}" class="btn btn-sm btn-outline-primary">Ver Todos</a>
+    </div>
+    
+    {% for aviso in avisos %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ aviso.titulo }}</h5>
+                <p class="card-text">{{ aviso.conteudo|linebreaks|truncatewords:30 }}</p>
+                {% if aviso.imagem %}
+                    <img src="{{ aviso.imagem.url }}" style="max-height: 150px; width: auto;" class="img-fluid rounded mb-2" alt="Imagem do aviso">
+                {% endif %}
+                <p class="card-text">
+                    <small class="text-muted">Publicado em: {{ aviso.data_criacao|date:"d/m/Y" }}</small>
+                </p>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            Nenhum aviso recente.
+        </div>
+    {% endfor %}
+
 {% endblock %}

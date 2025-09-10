@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Adicionar Morador{% endblock %}
+
+{% block content %}
+    <h1 class="main-title">Adicionar Novo Morador</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                {{ form|crispy }}
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Salvar Morador</button>
+                    <a href="{% url 'moradores' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

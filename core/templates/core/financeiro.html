@@ -3,8 +3,54 @@
 {% block title %}Financeiro | Gestão de Condomínio{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">💰 Controle Financeiro</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="main-title mb-0">💰 Controle Financeiro</h1>
+        <a href="#" class="btn btn-primary">
+            <i data-lucide="plus"></i> Lançar Pagamento
+        </a>
+    </div>
 
-<p>Aqui você pode acompanhar e gerenciar pagamentos, boletos e taxas do condomínio.</p>
-<button class="btn btn-success">Ver Relatórios</button>
+    <div class="card">
+        <div class="card-body">
+            {% if pagamentos %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Apartamento</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Vencimento</th>
+                                <th scope="col">Valor (R$)</th>
+                                <th scope="col" class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pagamento in pagamentos %}
+                                <tr>
+                                    <td>{{ pagamento.apartamento }}</td>
+                                    <td>{{ pagamento.descricao }}</td>
+                                    <td>{{ pagamento.data_vencimento|date:"d/m/Y" }}</td>
+                                    <td>{{ pagamento.valor }}</td>
+                                    <td class="text-center">
+                                        {% if pagamento.status == 'Pago' %}
+                                            <span class="badge bg-success">{{ pagamento.status }}</span>
+                                        {% elif pagamento.status == 'Pendente' %}
+                                            <span class="badge bg-warning text-dark">{{ pagamento.status }}</span>
+                                        {% elif pagamento.status == 'Atrasado' %}
+                                            <span class="badge bg-danger">{{ pagamento.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <p class="lead text-muted">Nenhum lançamento financeiro encontrado.</p>
+                    <p>Clique em "Lançar Pagamento" para começar.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
