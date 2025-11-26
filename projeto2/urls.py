@@ -1,22 +1,15 @@
-# seu_projeto/urls.py
+
 
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
 urlpatterns = [
-   
     path('admin/', admin.site.urls),
     
-    
-    path('api/', include('core.api_urls')),
-    
-    
-    path('', include('core.urls')),
-
+   
+    path('', include('core.urls')), 
 ]
 
 if settings.DEBUG:

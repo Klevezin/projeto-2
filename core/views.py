@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
@@ -6,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from rest_framework import viewsets
-
+from rest_framework.permissions import IsAuthenticated, IsAdminUser 
 
 from .models import Apartamento, Morador, Aviso
 from .serializers import ApartamentoSerializer, MoradorSerializer, AvisoSerializer
@@ -14,18 +13,21 @@ from .forms import MoradorForm
 
 
 
+
 class ApartamentoViewSet(viewsets.ModelViewSet):
-    queryset = Apartamento.objects.all()
+    queryset = Apartamento.objects.all().order_by('bloco', 'numero')
     serializer_class = ApartamentoSerializer
+    permission_classes = [IsAdminUser] 
 
 class MoradorViewSet(viewsets.ModelViewSet):
-    queryset = Morador.objects.all()
+    queryset = Morador.objects.all().order_by('nome_completo')
     serializer_class = MoradorSerializer
+    permission_classes = [IsAdminUser]
 
 class AvisoViewSet(viewsets.ModelViewSet):
-    queryset = Aviso.objects.all()
+    queryset = Aviso.objects.all().order_by('-data_criacao')
     serializer_class = AvisoSerializer
-
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -96,7 +98,6 @@ def morador_adicionar(request):
         
     contexto = {'form': form}
     return render(request, 'core/morador_form.html', contexto)
-# -----------------------------
 
 @login_required(login_url='login')
 def financeiro(request):
