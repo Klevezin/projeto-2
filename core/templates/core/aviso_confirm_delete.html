@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão de Aviso{% endblock %}
+
+{% block content %}
+    <h1 class="main-title">Deletar Aviso</h1>
+
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Atenção!</h4>
+        <p>Você tem certeza que deseja deletar permanentemente o aviso: <strong>"{{ aviso.titulo }}"</strong>?</p>
+        <hr>
+        <p class="mb-0">Esta ação não poderá ser desfeita.</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, tenho certeza e quero deletar</button>
+        <a href="{% url 'avisos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

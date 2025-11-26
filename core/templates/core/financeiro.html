@@ -4,10 +4,17 @@
 
 {% block content %}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="main-title mb-0">💰 Controle Financeiro</h1>
-        <a href="#" class="btn btn-primary">
-            <i data-lucide="plus"></i> Lançar Pagamento
-        </a>
+        {% if user.is_superuser %}
+            <h1 class="main-title mb-0">💰 Controle Financeiro</h1>
+        {% else %}
+            <h1 class="main-title mb-0">💰 Meus Pagamentos</h1>
+        {% endif %}
+
+        {% if user.is_superuser %}
+            <a href="{% url 'pagamento_adicionar' %}" class="btn btn-primary">
+                <i data-lucide="plus"></i> Lançar Pagamento
+            </a>
+        {% endif %}
     </div>
 
     <div class="card">
@@ -17,7 +24,9 @@
                     <table class="table table-hover mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">Apartamento</th>
+                                {% if user.is_superuser %}
+                                    <th scope="col">Apartamento</th>
+                                {% endif %}
                                 <th scope="col">Descrição</th>
                                 <th scope="col">Vencimento</th>
                                 <th scope="col">Valor (R$)</th>
@@ -27,7 +36,9 @@
                         <tbody>
                             {% for pagamento in pagamentos %}
                                 <tr>
-                                    <td>{{ pagamento.apartamento }}</td>
+                                    {% if user.is_superuser %}
+                                        <td>{{ pagamento.apartamento }}</td>
+                                    {% endif %}
                                     <td>{{ pagamento.descricao }}</td>
                                     <td>{{ pagamento.data_vencimento|date:"d/m/Y" }}</td>
                                     <td>{{ pagamento.valor }}</td>
@@ -47,8 +58,12 @@
                 </div>
             {% else %}
                 <div class="text-center py-5">
-                    <p class="lead text-muted">Nenhum lançamento financeiro encontrado.</p>
-                    <p>Clique em "Lançar Pagamento" para começar.</p>
+                    {% if user.is_superuser %}
+                        <p class="lead text-muted">Nenhum lançamento financeiro encontrado.</p>
+                        <p>Clique em "Lançar Pagamento" para começar.</p>
+                    {% else %}
+                        <p class="lead text-muted">Você não possui nenhum pagamento registrado.</p>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

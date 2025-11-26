@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Lançar Pagamento{% endblock %}
+
+{% block content %}
+    <h1 class="main-title">Lançar Novo Pagamento</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                {{ form|crispy }}
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Salvar Lançamento</button>
+                    <a href="{% url 'financeiro' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
