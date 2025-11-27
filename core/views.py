@@ -1,23 +1,24 @@
-<<<<<<< HEAD
-from django.shortcuts import render, redirect
-=======
 from django.shortcuts import render, redirect, get_object_or_404
->>>>>>> e5f396d171b77b490a6417d9dc49a5fc3a638cdb
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from rest_framework import viewsets
-<<<<<<< HEAD
 from rest_framework.permissions import IsAuthenticated, IsAdminUser 
 
-from .models import Apartamento, Morador, Aviso
-=======
+
+# Importações de Modelos
+# É crucial que Pagamento e Reserva estejam no models.py para que isso funcione
 from .models import Apartamento, Morador, Aviso, Pagamento, Reserva
->>>>>>> e5f396d171b77b490a6417d9dc49a5fc3a638cdb
+
+# Importações de Serializers e Forms
 from .serializers import ApartamentoSerializer, MoradorSerializer, AvisoSerializer
 from .forms import MoradorForm, PagamentoForm
 
+
+# =========================================================
+# 1. VIEWSETS DA API REST (DRF)
+# =========================================================
 
 class ApartamentoViewSet(viewsets.ModelViewSet):
     queryset = Apartamento.objects.all().order_by('bloco', 'numero')
@@ -32,12 +33,13 @@ class MoradorViewSet(viewsets.ModelViewSet):
 class AvisoViewSet(viewsets.ModelViewSet):
     queryset = Aviso.objects.all().order_by('-data_criacao')
     serializer_class = AvisoSerializer
-<<<<<<< HEAD
+    # Usamos a permissão que foi definida na sua versão HEAD
     permission_classes = [IsAuthenticated]
 
 
-=======
->>>>>>> e5f396d171b77b490a6417d9dc49a5fc3a638cdb
+# =========================================================
+# 2. VIEWS TRADICIONAIS DO DJANGO (HTML)
+# =========================================================
 
 def login_view(request):
     if request.method == 'POST':
@@ -107,6 +109,7 @@ def financeiro(request):
         lista_de_pagamentos = Pagamento.objects.all().order_by('-data_vencimento')
     else:
         try:
+            # Associa o usuário ao morador
             morador = Morador.objects.get(user=request.user)
             lista_de_pagamentos = Pagamento.objects.filter(apartamento=morador.apartamento).order_by('-data_vencimento')
         except Morador.DoesNotExist:
@@ -137,10 +140,12 @@ def reservas(request):
         lista_de_reservas = Reserva.objects.all().order_by('-data_reserva')
     else:
         try:
+            # Associa o usuário ao morador para ver apenas suas reservas
             morador = Morador.objects.get(user=request.user)
             lista_de_reservas = Reserva.objects.filter(morador=morador).order_by('-data_reserva')
         except Morador.DoesNotExist:
             lista_de_reservas = []
+            messages.warning(request, 'Seu usuário não está associado a nenhum morador.')
     contexto = {'reservas': lista_de_reservas}
     return render(request, 'core/reservas.html', contexto)
 
